@@ -2,8 +2,8 @@ import cv2
 import os
 
 def capture_ir_image():
-    # Open webcam in regular camera feed
-    cap = cv2.VideoCapture(0)
+    # Open webcam in IR sensor this value MUST be 2 for logitech BRIO - DO NOT CHANGE
+    cap = cv2.VideoCapture(2)
 
     if not cap.isOpened():
         print("Error: Unable to access webcam.")
