@@ -34,7 +34,7 @@ def capture_ir_image():
         if key & 0xFF == ord('q'):
             break
         elif key == 32:  # Press Spacebar to capture and save image
-            filename = f"/home/wyatt/Developer/tf-learning/face_images/IR_face/image_{image_count}.jpg"
+            filename = f"/home/wyatt/Developer/tf-learning/face_images/IR_images/image_{image_count}.jpg"
             cv2.imwrite(filename, frame)
             print(f"IR image saved as {filename}")
             image_count += 1
