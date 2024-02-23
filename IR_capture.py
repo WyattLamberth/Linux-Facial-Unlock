@@ -1,8 +1,8 @@
 import cv2
 import os
 
-def capture_ir_image():
-    # Open webcam in IR sensor this value MUST be 2 for logitech BRIO - DO NOT CHANGE
+def capture_ir_video():
+    # Open webcam in IR sensor, this value MUST be 2 for Logitech BRIO - DO NOT CHANGE
     cap = cv2.VideoCapture(2)
 
     if not cap.isOpened():
@@ -17,9 +17,11 @@ def capture_ir_image():
     if not os.path.exists("IR_Images"):
         os.makedirs("IR_Images")
 
-    image_count = 1  # Initialize image count
+    frame_count = 0
+    video_length = 15  # Length of video to capture in seconds
+    frame_interval = 2  # Interval to save frames (every 15th frame)
 
-    while True:
+    while frame_count < video_length * 30:  # Assuming 30 frames per second
         ret, frame = cap.read()
 
         if not ret:
@@ -29,19 +31,21 @@ def capture_ir_image():
         # Display IR image
         cv2.imshow('IR Image', frame)
 
-        # Press 'q' to exit
-        key = cv2.waitKey(1)
-        if key & 0xFF == ord('q'):
-            break
-        elif key == 32:  # Press Spacebar to capture and save image
-            filename = f"/home/wyatt/Developer/tf-learning/face_images/IR_images/image_{image_count}.jpg"
+        # Save every 15th frame
+        if frame_count % frame_interval == 0:
+            filename = f"IR_Images/frame_{frame_count // frame_interval}.jpg"
             cv2.imwrite(filename, frame)
-            print(f"IR image saved as {filename}")
-            image_count += 1
+            print(f"Frame {frame_count // frame_interval} saved as {filename}")
+
+        frame_count += 1
+
+        # Press 'q' to exit
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
     # Release resources
     cap.release()
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    capture_ir_image()
+    capture_ir_video()
